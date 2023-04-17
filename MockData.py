@@ -21,7 +21,7 @@ idNumbers = [1, 2, 3, 4]
 symptoms = ['insomnia', 'lack of appetite', 'irritability', 'impulsivity', 'weight gain', 'inactivity', 'hyperactivity']
 moods = ['happy', 'sad', 'confused', 'frustrated', 'angry', 'tired', 'restless', 'irritable', 'impulsive']
 
-# # create x random provider practice names
+# create x random provider practice names
 def providerPracticeNames(x):
     # pandas dataframe
     providerdata = pd.DataFrame()
@@ -40,7 +40,7 @@ providerdf.to_excel(r'C:\Users\dhruv\Downloads\Spring23\CS491\Fake-Data\provider
 
 # ########################################################################################################################################################################
 
-# #generate x users and their information
+#generate x users and their information
 def user(x):
     # pandas dataframe
     usersdata = pd.DataFrame()
@@ -61,7 +61,7 @@ usersdf.to_excel(r'C:\Users\dhruv\Downloads\Spring23\CS491\Fake-Data\users.xlsx'
 
 # ########################################################################################################################################################################
 
-# #create information for x number of random patients
+#create information for x number of random patients
 def patients(x):
     # pandas dataframe
     patientdata = pd.DataFrame()
@@ -78,7 +78,8 @@ def patients(x):
         patientdata.loc[i,'firstName']= str(fake.first_name())
         patientdata.loc[i,'middleName']= str(fake.personalia())
         patientdata.loc[i,'lastName']= str(fake.last_name())
-        patientdata.loc[i,'dateOfBirth']= fake.date_of_birth()
+        patientdata.loc[i,'email']= fake.date_of_birth()
+        patientdata.loc[i,'birthday']= fake.date_of_birth()
     return patientdata
 # call patients function to generate data and place it into a variable that can be turned into a dataframe to import to excel (this can later be saved as a csv)
 patientinfo = patients(365)
@@ -87,23 +88,35 @@ patientdf.to_excel(r'C:\Users\dhruv\Downloads\Spring23\CS491\Fake-Data\patient.x
 
 # ########################################################################################################################################################################
 
-# #generate daily metrics for x patients
-def daterange(start_date, end_date):
-    for n in range(int((end_date - start_date).days+1)):
-        yield start_date + timedelta(n)
-start_date = date(2023, 1, 1)
-end_date = date(2023, 12, 31)
+startingPatientId = 1
+finalPatientId = 10
+outfileExtension = '.xlsx'
+outfilePath = 'C:\\Users\\dhruv\\Downloads\\Spring23\\CS491\\Fake-Data\\dailymetric'
 
-def testMetrics(x):
-    testMetricsData = pd.DataFrame()
-    pd.set_option('display.max_rows', None)
-    pd.set_option('display.max_columns', 500)
-    pd.set_option('max_colwidth', 400)
-    pd.set_option('display.width', 1000)
-    pd.options.display.float_format = '{:.0f}'.format
-    for i in range(0,x):
+outfileExtension = '.xlsx'
+originFileName = 'dailymetric'
+originFileNumber = 1
+outfileOriginal = ("".join([originFileName, str(originFileNumber), outfileExtension]))
+
+for i in range(startingPatientId, finalPatientId):
+    outfileFinal= ("".join([outfilePath, str(startingPatientId), outfileExtension]))
+    outfileDelete = ("".join([originFileName, str(originFileNumber+1), outfileExtension]))
+    print(outfileDelete)
+    def daterange(start_date, end_date):
+        for n in range(int((end_date - start_date).days+1)):
+            yield start_date + timedelta(n)
+    start_date = date(2023, 1, 1)
+    end_date = date(2023, 12, 31)
+
+    def testMetrics():
+        testMetricsData = pd.DataFrame()
+        pd.set_option('display.max_rows', None)
+        pd.set_option('display.max_columns', 500)
+        pd.set_option('max_colwidth', 400)
+        pd.set_option('display.width', 1000)
+        pd.options.display.float_format = '{:.0f}'.format
         for createdAtDate in daterange(start_date, end_date):
-            testMetricsData.loc[createdAtDate,'patientId']= int(77)
+            testMetricsData.loc[createdAtDate,'patientId']= int(startingPatientId-1)
             testMetricsData.loc[createdAtDate,'adhd']= (np.random.randint(0,100))
             testMetricsData.loc[createdAtDate,'anxiety']= (np.random.randint(0,100))
             testMetricsData.loc[createdAtDate,'depression']= (np.random.randint(0,100))
@@ -114,13 +127,25 @@ def testMetrics(x):
             testMetricsData.loc[createdAtDate,'checkedIn']= bool(random.getrandbits(1))
             testMetricsData.loc[createdAtDate,'moodLevel']= (np.random.randint(0,100))
         return testMetricsData
-dailymetr = testMetrics(np.random.randint(1,356))
-metricsdf = pd.DataFrame(dailymetr)
-metricsdf.to_excel(r'C:\Users\dhruv\Downloads\Spring23\CS491\Fake-Data\test.xlsx', index=False) #enter a path here to save output to xlsx format
+
+    startingPatientId+=1
+    
+    dailymetr = testMetrics()
+    metricsdf = pd.DataFrame(dailymetr)
+    metricsdf.to_excel(outfileFinal, index=False) #enter a path here to save output to xlsx format
+
+
+    # read the data of excel file you want information from
+    df=pd.read_excel(outfileFinal)
+
+    # appending the data of df after the data of the excel file you want the data in
+    with pd.ExcelWriter(outfileOriginal,mode="a",engine="openpyxl",if_sheet_exists="overlay") as writer:
+        df.to_excel(writer, sheet_name="Sheet1",header=None, startrow=writer.sheets["Sheet1"].max_row,index=False)
+    originFileNumber+=1
 
 # ########################################################################################################################################################################
 
-# # generate side effects data for x patients
+# generate side effects data for x patients
 def sideEffects(x):
     # pandas dataframe
     sideeffects = pd.DataFrame()
