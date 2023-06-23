@@ -36,7 +36,7 @@ def providerPracticeNames(x):
 # call provider function to generate data and place it into a variable that can be turned into a dataframe to import to excel (this can later be saved as a csv)
 providerInfo = providerPracticeNames(4)
 providerdf = pd.DataFrame(providerInfo)
-providerdf.to_excel(r'C:\Users\dhruv\Downloads\Spring23\CS491\Fake-Data\provider.xlsx', index=False) #enter a path here to save output to xlsx format
+providerdf.to_excel(r'file_path', index=False) #enter a path here to save output to xlsx format
 
 # ########################################################################################################################################################################
 
@@ -57,7 +57,7 @@ def user(x):
 # call user function to generate data and place it into a variable that can be turned into a dataframe to import to excel (this can later be saved as a csv)
 users = user(4)
 usersdf = pd.DataFrame(users)
-usersdf.to_excel(r'C:\Users\dhruv\Downloads\Spring23\CS491\Fake-Data\users.xlsx', index=False) #enter a path here to save output to xlsx format
+usersdf.to_excel(r'file_path', index=False) #enter a path here to save output to xlsx format
 
 # ########################################################################################################################################################################
 
@@ -84,14 +84,14 @@ def patients(x):
 # call patients function to generate data and place it into a variable that can be turned into a dataframe to import to excel (this can later be saved as a csv)
 patientinfo = patients(365)
 patientdf = pd.DataFrame(patientinfo)
-patientdf.to_excel(r'C:\Users\dhruv\Downloads\Spring23\CS491\Fake-Data\patient.xlsx', index=False) #enter a path here to save output to xlsx format
+patientdf.to_excel(r'file_path', index=False) #enter a path here to save output to xlsx format
 
 # ########################################################################################################################################################################
 
 startingPatientId = 1
 finalPatientId = 10
 outfileExtension = '.xlsx'
-outfilePath = 'C:\\Users\\dhruv\\Downloads\\Spring23\\CS491\\Fake-Data\\dailymetric'
+outfilePath = 'file_path'
 
 outfileExtension = '.xlsx'
 originFileName = 'dailymetric'
@@ -148,7 +148,7 @@ for i in range(startingPatientId, finalPatientId):
 startingPatientId = 1
 finalPatientId = 91
 outfileExtension = '.xlsx'
-outfilePath = 'C:\\Users\\dhruv\\Downloads\\Spring23\\CS491\\Fake-Data\\sideeffects'
+outfilePath = 'file_path'
 
 outfileExtension = '.xlsx'
 originFileName = 'sideeffects'
